@@ -69,6 +69,8 @@
         - item.item == "frontend"
 
 
+    - debug:
+        msg: "{{ ec2_output.results }}"
 
 #Deleting route 53 records
     - name: Deleting route53 record
