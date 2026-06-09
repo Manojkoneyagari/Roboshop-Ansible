@@ -86,7 +86,7 @@
       loop: "{{ instances }}"
       when:   
         - action == "delete"
-        - item.item != "frontend"
+        - item != "frontend"
 
 
 
@@ -100,7 +100,7 @@
       loop: "{{ instances }}"
       when:   
         - action == "delete"
-        - item.item == "frontend"
+        - item == "frontend"
 
     
 #Deleting EC2 instances
