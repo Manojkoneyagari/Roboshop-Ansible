@@ -104,7 +104,7 @@
         name: "{{ item }}-roboshop"
         wait: false
         
-      loop: {{ instances }}
+      loop: "{{ instances }}"
       when: action == "delete"
 
       
