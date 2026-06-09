@@ -4,10 +4,12 @@
   vars:
     instances: ["mongodb", "mysql", "rabbitmq", "redis", "catalogue", "shipping", "cart", "user", "payment", "frontend"]
     AMI: ami-05cf1e9f73fbad2e2
-    ZONE_ID: "manojkoney.store"
-    RECORDNAME: "manojkoney.store"
+    Hosted_Zone: "manojkoney.store"
+    Record_Name: "manojkoney.store"
     action: "create"
   tasks:
+
+  #Printing variables
     - name: printing instances 
       debug:
         var: instances
@@ -16,8 +18,6 @@
       debug:
         var: action
       
-
-
 
     - name: creating EC2 instances
       amazon.aws.ec2_instance:  
@@ -61,8 +61,8 @@
     - name: creating route53 record for frontend
       amazon.aws.route53:
         state: present
-        zone: "{{ ZONE_ID }}"
-        record: "{{ RECORDNAME }}"
+        zone: "{{ Hosted_Zone }}"
+        record: "{{ Record_Name }}"
         type: A
         ttl: 1
         value: "{{ item.instances[0].private_ip_address }}"
@@ -79,8 +79,8 @@
     - name: Deleting route53 record
       amazon.aws.route53:
         state: absent
-        zone: "{{ ZONE_ID }}"
-        record: "{{ item }}.{{ RECORDNAME }}"
+        zone: "{{ Hosted_Zone }}"
+        record: "{{ item }}.{{ Record_Name }}"
         type: A
         ttl: 1
       loop: "{{ instances }}"
@@ -93,8 +93,8 @@
     - name: Deleting route53 record for frontend
       amazon.aws.route53:
         state: absent
-        zone: "{{ ZONE_ID }}"
-        record: "{{ RECORDNAME }}"
+        zone: "{{ Hosted_Zone }}"
+        record: "{{ Record_Name }}"
         type: A
         ttl: 1
       loop: "{{ instances }}"
@@ -115,4 +115,9 @@
 
       
 
-  
+  #commands
+  # ansible-playbook EC2.yaml -e '{"action":"delete","instances":["mongodb"]}'
+  # ansible-playbook EC2.yaml -e '{"action":"delete"}'
+  # ansible-playbook EC2.yaml -e '{"action":"delete","instances":["mongodb","redis","mysql","rabbitmq"]}'
+
+
