@@ -8,6 +8,13 @@
     RECORDNAME: "manojkoney.store"
     action: "create"
   tasks:
+    - name: printing instances
+      debug:
+        var: instances
+      
+
+
+
     - name: creating EC2 instances
       amazon.aws.ec2_instance:  
         name: "{{ item }}-roboshop"
@@ -18,7 +25,7 @@
         - "{{ item }}-roboshop"
         - common-roboshop
       register: ec2_output
-      loop: {{ instances }}
+      loop: "{{ instances }}""
       when: action == "create"
 
 
@@ -102,4 +109,4 @@
 
       
 
-    
+  
