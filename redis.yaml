@@ -10,6 +10,11 @@
         state: present
         update_cache: yes
 
+    - name: creating directory for logs
+      file:
+        path: /var/log/roboshop
+        state: directory
+
     - name: printing gather facts
       debug:
         var: ansible_distribution_release
