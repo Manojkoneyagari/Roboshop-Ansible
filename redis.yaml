@@ -20,7 +20,9 @@
         dest: /tmp/redis.gpg
     
     - name: convert gpg key to keyring format
-      command: gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg /tmp/redis.gpg
+      command:
+        cmd: gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg /tmp/redis.gpg
+        creates: /usr/share/keyrings/redis-archive-keyring.gpg
 
     - name: copy redis repo from local to destination
       template:
