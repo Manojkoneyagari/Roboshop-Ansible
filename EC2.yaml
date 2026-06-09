@@ -45,7 +45,7 @@
     - name: creating route53 record
       amazon.aws.route53:
         state: present
-        zone: "{{ ZONE_ID }}"
+        zone: "{{ Hosted_Zone }}"
         record: "{{ item.item }}.{{ Record_Name }}"
         type: A
         ttl: 1
