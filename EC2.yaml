@@ -20,6 +20,7 @@
         name: "{{ item }}-roboshop"
         key_name: "Key.pem"
         instance_type: t3.micro
+        region: us-east-1
         image_id: "{{ AMI }}"
         security_groups:
         - "{{ item }}-roboshop"
