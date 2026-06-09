@@ -8,9 +8,12 @@
     RECORDNAME: "manojkoney.store"
     action: "create"
   tasks:
-    - name: printing instances and action
+    - name: printing instances 
       debug:
         var: instances
+
+    - name: printing action 
+      debug:
         var: action
       
 
