@@ -71,7 +71,7 @@
 
 
 #Deleting route 53 records
-    - name: creating route53 record
+    - name: Deleting route53 record
       amazon.aws.route53:
         state: absent
         zone: "{{ ZONE_ID }}"
@@ -82,12 +82,12 @@
         overwrite: true
       loop: "{{ ec2_output.results }}"
       when:   
-        - action == "create"
+        - action == "delete"
         - instances != "frontend"
 
 
 
-    - name: creating route53 record for frontend
+    - name: Deleting route53 record for frontend
       amazon.aws.route53:
         state: absent
         zone: "{{ ZONE_ID }}"
@@ -98,7 +98,7 @@
         overwrite: true
       loop: "{{ ec2_output.results }}"
       when:   
-        - action == "create"
+        - action == "delete"
         - instances == "frontend"
 
     
