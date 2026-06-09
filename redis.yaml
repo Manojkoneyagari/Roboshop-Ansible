@@ -10,6 +10,10 @@
         state: present
         update_cache: yes
 
+    - name: printing gather facts
+      debug:
+        var: ansible_distribution_release
+
     - name: Downloading gpg key for redis repo
       get_url:
         url: https://packages.redis.io/gpg
@@ -18,9 +22,9 @@
     - name: convert gpg key to keyring format
       command: gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg /tmp/redis.gpg
 
-    - name: copy mongodb repo from local to destination
-      copy:
-        src: ./redis.list
+    - name: copy redis repo from local to destination
+      template:
+        src: ./redis.list.j2
         dest: /etc/apt/sources.list.d/redis.list
 
     - name: Install cache
