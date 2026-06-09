@@ -80,11 +80,9 @@
       amazon.aws.route53:
         state: absent
         zone: "{{ ZONE_ID }}"
-        record: "{{ item.item }}.{{ RECORDNAME }}"
+        record: "{{ item }}.{{ RECORDNAME }}"
         type: A
         ttl: 1
-        value: "{{ item.instances[0].private_ip_address }}"
-        overwrite: true
       loop: "{{ instances }}"
       when:   
         - action == "delete"
@@ -99,8 +97,6 @@
         record: "{{ RECORDNAME }}"
         type: A
         ttl: 1
-        value: "{{ item.instances[0].private_ip_address }}"
-        overwrite: true
       loop: "{{ instances }}"
       when:   
         - action == "delete"
