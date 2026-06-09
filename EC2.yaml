@@ -2,7 +2,7 @@
   hosts: local
   connection: local
   vars:
-    instances: ["mongodb", "mysql", "rabbitmq", "reddis", "catalogue", "shipping", "cart", "user", "payment", "frontend"]
+    instances: ["mongodb", "mysql", "rabbitmq", "redis", "catalogue", "shipping", "cart", "user", "payment", "frontend"]
     AMI: ami-05cf1e9f73fbad2e2
     ZONE_ID: Z07186583IUMEVUQL0IYT
     RECORDNAME: "manojkoney.store"
