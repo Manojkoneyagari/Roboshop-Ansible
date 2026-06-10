@@ -7,7 +7,7 @@
       apt:
         update_cache: yes
 
-    - name: Install mysql
+    - name: Install rabbitmq
       package:
         name: rabbitmq-server
         state: present
