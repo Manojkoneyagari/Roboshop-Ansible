@@ -12,6 +12,7 @@
           - curl
           - ca-certificates
           - gnupg
+          - unzip
         state: present
 
     - name: Download NodeSource setup script
