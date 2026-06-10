@@ -1,2 +1,6 @@
 MONGODB_HOST: mongodb.manojkoney.store
 REDIS_HOST: redis.manojkoney.store
+USER_HOST: user.manojkoney.store
+CATALOGUE_HOST: catalogue.manojkoney.store
+MYSQL_HOST: mysql.manojkoney.store
+RABBITMQ_HOST: rabbitmq.manojkoney.store
