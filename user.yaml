@@ -71,6 +71,7 @@
       unarchive:
         src: /tmp/user.zip
         dest: /app
+        remote_src: yes
 
     - name: Install Node.js dependencies from app direc
       community.general.npm:
