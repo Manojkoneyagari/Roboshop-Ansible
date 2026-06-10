@@ -1,0 +1,32 @@
+- name: setup mysql configuartion
+  hosts: rabbitmq
+  become: yes
+  tasks:
+
+    - name: update cache
+      apt:
+        update_cache: yes
+
+    - name: Install mysql
+      package:
+        name: rabbitmq-server
+        state: present
+
+
+    - name: Start and enable rabbitmq
+      service:
+        name: rabbitmq-server
+        state: started
+        enabled: yes
+
+    - name: Add RabbitMQ user roboshop
+      community.rabbitmq.rabbitmq_user:
+        user: roboshop
+        password: RoboShop@123
+        permissions:
+        - vhost: /
+          configure_priv: .*
+          read_priv: .*
+          write_priv: .*
+        state: present
+  
