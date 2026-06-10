@@ -59,7 +59,7 @@
     - name: Creating directory
       ansible.builtin.file:
         path: /app
-        state: present
+        state: directory
 
     - name: Downloading code
       get_url:
