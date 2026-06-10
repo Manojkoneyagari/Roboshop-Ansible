@@ -39,6 +39,13 @@
         query: FLUSH PRIVILEGES;
         login_unix_socket: /var/run/mysqld/mysqld.sock
 
+
+    - name: Allowing remote connections
+      replace:
+        path: /etc/mysql/mysql.conf.d/mysqld.cnf
+        regexp: '127.0.0.1'
+        replace: '0.0.0.0'
+
     
     - name: Restart mysql
       service:
