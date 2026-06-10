@@ -1,0 +1,81 @@
+- name: setup mysql configuartion
+  hosts: mysql
+  become: yes
+  tasks:
+
+    - name: update cache
+      apt:
+        update_cache: yes
+
+    - name: Install mysql
+      package:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - mysql-server
+        - python3-pymysql
+
+    - name: Start and enable mysql
+      service:
+        name: mysql
+        state: started
+        enabled: yes
+
+    - name: configuring root localhost configuration
+      shell: mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH auth_socket;"
+      ignore_errors: yes
+
+    - name: create root user for remote connection
+      community.mysql.mysql_user:
+        name: root
+        host: "%"
+        password: "Manoj@123"
+        priv: "*.*:ALL,GRANT"
+        state: present 
+        login_unix_socket: /var/run/mysqld/mysqld.sock
+
+    - name: Flush privileges
+      community.mysql.mysql_query:
+        query: FLUSH PRIVILEGES;
+        login_unix_socket: /var/run/mysqld/mysqld.sock
+
+    
+    - name: Restart mysql
+      service:
+        name: mysql
+        state: restarted
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    - name: Install pymysql package
+  apt:
+    name: python3-pymysql
+    state: present
+
+- name: Create remote root user
+  community.mysql.mysql_user:
+    name: root
+    host: "%"
+    password: "Manoj@123"
+    priv: "*.*:ALL,GRANT"
+    state: present
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+
