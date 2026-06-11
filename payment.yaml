@@ -1,70 +1,70 @@
 - name: setup payment configuartion
   hosts: payment
   become: yes
+  tasks:
+    - name: Install prerequisites
+      apt:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      loop:
+        - python3
+        - unzip
+        - gcc
+        - python3-dev
+        - python3-pip
 
-- name: Install prerequisites
-  apt:
-    name: "{{ item }}"
-    state: present
-    update_cache: yes
-  loop:
-    - python3
-    - unzip
-    - gcc
-    - python3-dev
-    - python3-pip
+    - name: create roboshop system user
+      ansible.builtin.user:
+        name: roboshop
+        home: /app
+        shell: /sbin/nologin
+        system: true
+        comment: roboshop system user
 
-- name: create roboshop system user
-  ansible.builtin.user:
-    name: roboshop
-    home: /app
-    shell: /sbin/nologin
-    system: true
-    comment: roboshop system user
+    - name: removing directory if it exists
+      ansible.builtin.file:
+        path: /app
+        state: absent
 
-- name: removing directory if it exists
-  ansible.builtin.file:
-    path: /app
-    state: absent
+    - name: Remove a zip file if it exists
+      ansible.builtin.file:
+        path: /tmp/payment.zip
+        state: absent
 
-- name: Remove a zip file if it exists
-  ansible.builtin.file:
-    path: /tmp/payment.zip
-    state: absent
+    - name: Creating directory
+      ansible.builtin.file:
+        path: /app
+        state: directory
 
-- name: Creating directory
-  ansible.builtin.file:
-    path: /app
-    state: directory
+    - name: Downloading code
+      get_url:
+        url: https://roboshop-artifacts.s3.amazonaws.com/payment-v3.zip
+        dest: /tmp/payment.zip
 
-- name: Downloading code
-  get_url:
-    url: https://roboshop-artifacts.s3.amazonaws.com/payment-v3.zip
-    dest: /tmp/payment.zip
+    - name: unzip the file
+      unarchive:
+        src: /tmp/payment.zip
+        dest: /app
+        remote_src: yes
 
-- name: unzip the file
-  unarchive:
-    src: /tmp/payment.zip
-    dest: /app
-    remote_src: yes
+    - name: Install dependencies from requirements.txt
+      pip:
+        requirements: /app/requirements.txt
+        executable: pip3
 
-- name: Install dependencies from requirements.txt
-  pip:
-    requirements: /app/requirements.txt
-    executable: pip3
+    - name: copy shipping service
+      template:
+        src: payment.service.j2
+        dest: /etc/systemd/system/shipping.payment.service
 
-- name: copy shipping service
-  template:
-    src: payment.service.j2
-    dest: /etc/systemd/system/shipping.payment.service
+    - name: deamon reload
+      systemd:
+        name: payment
+        daemon_reload: true
 
-- name: deamon reload
-  systemd:
-    name: payment
-    daemon_reload: true
-
-- name: enable and start payment
-  service:
-    name: payment
-    state: restarted
-    enabled: yes
+    - name: enable and start payment
+      service:
+        name: payment
+        state: restarted
+        enabled: yes
