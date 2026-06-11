@@ -13,6 +13,7 @@
       loop:
         - maven
         - python3-pymysql
+        - unzip
 
     - name: create roboshop system user
       ansible.builtin.user:
