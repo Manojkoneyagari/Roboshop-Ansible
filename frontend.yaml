@@ -10,6 +10,10 @@
         state: present
         update_cache: yes
 
+    - name: printing gather facts
+      debug:
+        var: ansible_distribution_release
+
     - name: Downloading gpg key for mongodb repo
       get_url:
         url: https://nginx.org/keys/nginx_signing.key
