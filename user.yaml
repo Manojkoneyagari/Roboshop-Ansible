@@ -82,3 +82,14 @@
       template:
         src: user.service.j2
         dest: /etc/systemd/system/user.service
+
+    - name: deamon reload
+      systemd:
+        name: user
+        daemon_reload: true
+
+    - name: enable and start user
+      service:
+        name: user
+        state: restarted
+        enabled: yes
