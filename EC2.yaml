@@ -54,7 +54,6 @@
       loop: "{{ ec2_output.results }}"
       when: 
         - action == "create" 
-        - item.item != "frontend"
 
 
 
@@ -86,7 +85,6 @@
       loop: "{{ instances }}"
       when:   
         - action == "delete"
-        - item != "frontend"
 
 
 
