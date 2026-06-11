@@ -49,10 +49,7 @@
         remote_src: yes
 
     - name: Install dependencies from requirements.txt
-      pip:
-        requirements: /app/requirements.txt
-        executable: pip3
-        break_system_packages: true
+      command: pip3 install -r /app/requirements.txt --break-system-packages --ignore-installed typing_extensions
 
     - name: copy shipping service
       template:
